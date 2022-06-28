@@ -1,0 +1,51 @@
+<% layout("./layouts/layout.eta") %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 text-left p-3">
+        <br>
+        <h1>Dynamic QR code managing tool</h1>
+        <br>
+        <p>
+            This service can be used for creating and maintaining dynamic QR codes. 
+            The application allows creating QR codes which redirect to an URL.
+            The URL can be edited, so you can use one QR code for redictreting to various
+            pages, unlike with static QR codes.
+            <br><br>
+            You can check this project's GitHub page <a href="https://github.com/jj-stigell/DenomicQR" target="_blank">here</a>.
+            <br><br>
+            After logging in or sign-up you can start creating and managing <a href="/mycodes">your QR codes</a>.
+            <br><br>
+            <% if (!it.user) { %>
+                If you haven't used the application before, you can start by <a href="/auth/register">registering</a>. 
+                If you have been here before, just <a href="/auth/login">sign in</a>!
+            <% } %>
+        </p>
+    </div>
+    <% if (!it.user) { %>
+        <div class="col-sm-4 text-center p-3">
+        <div>
+            <img class="mb-4" src="../../static/qr.png" alt="logo" width="72" height="72">
+            <h1 class="h3 mb-3 fw-normal">Sign in to your account</h1>
+            <% if (it.errors) { %>
+            <p style="color:red;"><%= it.errors %></p>
+            <% } %>
+        </div>
+        <form method="POST" action="/auth/login">
+            <div class="form-floating">
+            <input type="email" name="email" class="form-control" id="floatingUserEmail" placeholder="name@example.com">
+            <label for="floatingInput">Email</label>
+            </div>
+            <div class="form-floating">
+            <input type="password" name="password" class="form-control" id="floatingUserPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit" value="signin">Sign in</button>
+        </form>
+        <br>
+        <p>
+            You don't have an account yet? <a href="/auth/register">Sign up here.</a>
+        </p>
+        </div>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<% layout("./layouts/layout.eta") %>
+<div class="container-sm">
+  <br>
+  <% if (it.qrCodes.length != 0) { %>
+    <h2>My QR codes (total <%= it.qrCodes.length %>):</h2>
+    <% it.qrCodes.forEach((code) => { %>
+      <div class="card mb-3 p-2" style="max-width: 50rem;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="<%= code.qrcode %>" class="img-fluid rounded-start" alt="qrcode<%= code.qrid %>">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">ID <a href="https://denomic.herokuapp.com/code/<%= code.qrid %>" target="_blank"><%= code.qrid %></a> Redirected <%= code.views %> times</h5>
+              <p class="card-text"><%= code.comment %></p>
+              <p class="card-text">
+                <small class="text-muted">
+                  Lastest edit: 
+                  <% if (code.updated) { %>
+                    <%= code.updated %>
+                  <% } else { %>
+                    -
+                  <% } %>
+                </small>
+              </p>
+              <a href="/edit/<%= code.qrid %>" class="btn btn-primary">Edit & History</a>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<%= code.qrid %>">Delete</button>
+              <div class="modal fade" id="deleteModal<%= code.qrid %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteModalLabel<%= code.qrid %>">Delete QR code ID: <%= code.qrid %></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you sure you want to delete? Once deleted, the QR code and its history cannot be recovered!</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button onclick="deleteQr('<%= code.qrid %>')" type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <div class="container-fluid">
+      <p>No QR codes created yet. Click <a href="/add">here</a> to create your first dynamic QR code.</p>
+    </div>
+  <% } %>
+</div>

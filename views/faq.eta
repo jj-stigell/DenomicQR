@@ -1,0 +1,44 @@
+<% layout("./layouts/layout.eta") %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 text-left p-3">
+        <br>
+        <h1>Frequently Asked Questions</h1>
+        <br>
+        <h3>What is QR code?</h3>
+        <p>
+            A QR code is a type of matrix barcode invented in 1994 by the Japanese automotive company 
+            <a href="https://www.denso-wave.com/en/" target="_blank">Denso Wave</a>. A barcode is 
+            a machine-readable optical label that can contain information about the item to which it is attached. 
+            In practice, QR codes often contain data for a locator, identifier, or tracker that points to a 
+            website or application. A QR code uses four standardized encoding modes (numeric, alphanumeric, 
+            byte/binary, and kanji) to store data efficiently. 
+            (<a href="https://en.wikipedia.org/wiki/QR_code" target="_blank">Wikipedia</a>)
+        </p>
+        <br>
+        <h3>What is dynamic QR code?</h3>
+        <p>
+            Dynamic QR codes have a short URL embedded in the code, which can redirect the user to the 
+            destination website URL. The destination URL can be changed after the QR code has been generated, 
+            while the short URL embedded in the code remains the same. 
+
+            Dynamic QR codes are easier to scan than Static QR Codes because the QR code image is less dense. 
+            Unlike Static QR Codes, you can protect a Dynamic QR code with a password, find out how many people 
+            scanned your code, or track what type of devices scanned it. 
+            (<a href="https://www.sony.co.uk/electronics/support/articles/00248593" target="_blank">Sony</a>)
+        </p>
+        <br>
+        <h3>How can I make dynamic QR codes with <a href="https://github.com/jj-stigell/DenomicQR" target="_blank">DenomicQR?</a></h3>
+        <p>
+            <a href="/auth/register">Sign up</a> for an account. If you already have an account,
+            please <a href="/auth/login">sign in</a>. Navigate from the main menu to 'Create QR code'. 
+            As of now you can only create QR codes that redirect to HTTP or HTTPS addresses. 
+            Specify the url and give a short comment/descrition for the QR code.
+            Once the code is created you will be redirected to the newly created code 
+            edit page. From there you can update the link and comment of the code and if 
+            you want, you can delete it also <span style="color:red">(Note! this will make your QR code unusable and 
+            unrecoverable)</span>.
+        </p>
+    </div>
+  </div>
+</div>

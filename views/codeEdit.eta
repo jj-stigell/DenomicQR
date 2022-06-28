@@ -1,0 +1,151 @@
+<% layout("./layouts/layout.eta") %>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 p-3">
+      <h2>QR code <a href="https://denomic.herokuapp.com/code/<%= it.qrCode.qrid %>" target="_blank"><%= it.qrCode.qrid %></a></h2>
+      <div class="card" style="width: 18rem;">  
+        <img src="<%= it.qrCode.qrcode %>" class="card-img-top" alt="QR code">
+      </div>
+      <br>
+      <div class="text-wrap">
+        <ul class="list-group">
+          <li class="list-group-item"><h4>Created: </h4><%= it.qrCode.created %></li>
+          <li class="list-group-item">
+            <h4>Last edited: </h4>
+            <% if (it.qrCode.updated) { %>
+              <%= it.qrCode.updated %>
+            <% } else { %>
+              -
+            <% } %>
+          </li>
+          <li class="list-group-item"><h4>Redirects to: </h4><a href="<%= it.qrCode.linksto %>" target="_blank"><%= it.qrCode.linksto.slice(0, 25) %>...</a></li>
+          <li class="list-group-item"><h4>Comment: </h4><%= it.qrCode.comment %></li>
+          <li class="list-group-item"><h4>Redirects: </h4><%= it.qrCode.views %></li>
+        </ul>
+      </div>
+    </div>
+  <div class="col-sm-8 p-3">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="true">Edit</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button onclick="getEditHistory('<%= it.qrCode.qrid %>')" class="nav-link" id="edit-history-tab" data-bs-toggle="tab" data-bs-target="#edit-history" type="button" role="tab" aria-controls="edit-history" aria-selected="false">Edit history</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button onclick="getRedirectHistory('<%= it.qrCode.qrid %>')" class="nav-link" id="redirect-history-tab" data-bs-toggle="tab" data-bs-target="#redirect-history" type="button" role="tab" aria-controls="redirect-history" aria-selected="false">Redirect history</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button onclick="showChart('<%= it.qrCode.qrid %>')" class="nav-link" id="redirect-chart-tab" data-bs-toggle="tab" data-bs-target="#redirect-chart" type="button" role="tab" aria-controls="redirect-chart" aria-selected="false">Redirect chart (mock data)</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+        <br>
+        <h3>Edit QR code <%= it.qrCode.qrid %>:</h3>
+        <% if (it.validationErrors) { %>
+          <ul>
+              <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+                  <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+                      <li style="color:red;"><%= err %></li>
+                  <% }); %>
+              <% }); %>
+          </ul>
+        <% } %>
+        <form method="POST" action="/edit/<%= it.qrCode.qrid %>">
+          <div class="form-group">
+            <label for="url">Link</label>
+            <input type="text" name="urlEditInput" value="<%= it.qrCode.linksto %>" class="form-control" id="urlEditInput" placeholder="Enter a new url">
+            <small id="urlHelp" class="form-text text-muted">remember to include http or https in the link, if left empty old url is used</small>
+            <div id="validationUrl" class="invalid-feedback">
+              Not a valid url, if you want to edit just comment leave this blank
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="comment">Comment</label>
+            <input type="text" name="commentEditInput" value="<%= it.qrCode.comment %>" class="form-control" id="commentEditInput" placeholder="Enter new comment for link">
+            <small id="commentlHelp" class="form-text text-muted">if comment is left empty, the old one is used</small>
+            <div id="validationComment" class="invalid-feedback">
+              Comment must be between <%= it.commentMin %> - <%= it.commentMax %> characters long or blank if the old one is used
+            </div>
+          </div>
+          <br>
+          <input id="submitCode" type="submit" value="Update QR code" class="btn btn-primary"/>
+        </form>
+        <br>
+        <a href="/mycodes" class="btn btn-secondary">Return to my codes</a>
+        <br><br>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete QR code</button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete QR code ID: <%= it.qrCode.qrid %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete? Once deleted, the QR code and its history cannot be recovered!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button onclick="deleteQr('<%= it.qrCode.qrid %>')" type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class="tab-pane fade" id="edit-history" role="tabpanel" aria-labelledby="edit-history-tab">
+        <table id="editsTable" class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Redirects to</th>
+              <th scope="col">Comment</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+            </tr>
+          </thead>
+          <tbody id="listEditHistory">
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary m-4" role="status" id="editHistoryLoader"></div>
+        </div>
+        <div class="container-fluid">
+          <button onclick="updateEditHistory('<%= it.qrCode.qrid %>')" class="btn btn-info" id="editsUpdate">Update</button>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="redirect-history" role="tabpanel" aria-labelledby="redirect-history-tab">
+          <table id="redirectsTable" class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Device</th>
+              </tr>
+            </thead>
+            <tbody id="listRedirectHistory">
+            </tbody>
+          </table>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary m-4" role="status" id="redirectHistoryLoader"></div>
+        </div>
+        <div class="container-fluid">
+          <button onclick="updateRedirectHistory('<%= it.qrCode.qrid %>')" class="btn btn-info" id="redirsUpdate">Update</button>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="redirect-chart" role="tabpanel" aria-labelledby="redirect-chart-tab">
+        <div>
+          <canvas id="lineChart"></canvas>
+          <p class="d-flex align-items-center justify-content-center" id="chartLoadError" style="color:red;"></p>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary m-4" role="status" id="redirectChartLoader"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
