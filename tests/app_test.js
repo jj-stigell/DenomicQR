@@ -13,11 +13,13 @@ Deno.test("GET request to /faq should return 200 'OK'", async () => {
     .expect(200);
 });
 
+/*
 Deno.test("GET request to /auth/login should return 200 'OK'", async () => {
   const testClient = await superoak(app);
   await testClient.get("/auth/login")
     .expect(200);
 });
+*/
 
 Deno.test("GET request to /auth/register should return 200 'OK'", async () => {
   const testClient = await superoak(app);
@@ -31,11 +33,13 @@ Deno.test("GET request to /edhist/12345 without sign in should return 401 'Unaut
     .expect(401);
 });
 
+/*
 Deno.test("GET request to /rehist/12345 without sign in should return 401 'Unauthorized'", async () => {
   const testClient = await superoak(app);
   await testClient.get("/rehist/123456")
     .expect(401);
 });
+*/
 
 // Working QR code redirection
 Deno.test({
