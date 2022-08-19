@@ -18,36 +18,55 @@ App uses Base64 encoding scheme to represent the QR codes. Generated QR codes ar
 Database used for the app is [PostgreSQL](https://www.postgresql.org/). Validation for user inputs in client-side is done using javascript, regex and jQuery. Server-side validation is done with regex and Deno's [Validasaur](https://github.com/emsifa/validasaur) library.
 
 ## Requirements
-* [Deno](https://deno.land/) (App built using [v1.22.0](https://github.com/denoland/deno/releases/tag/v1.22.0))
+* [Deno](https://deno.land/) (using [v1.22.0](https://github.com/denoland/deno/releases/tag/v1.22.0))
 
 ## Run the application (locally)
-1. Clone the project to your machine ```[git clone https://github.com/jj-stigell/DenomicQR.git]```
+1. Clone the project to your machine ```git clone https://github.com/jj-stigell/DenomicQR.git```
 2. Install [Deno](https://deno.land/) JS/TS runtime.
-3. Create a postgreSQL databse and create database tables by loading the sql files from /config/database/createTables.sql
+3. Create a postgreSQL database and create database tables by loading the sql files from /config/database/createTables.sql
 4. (optional) you can populate the database with ready made mock data with file /config/database/mockData.sql.
-User password is commented in plain text to easily sign in to the account.
-5. Setup the database credentials in /config/database/creds.js
+Test user password is commented in plain text to easily sign in to the account.
+5. Create a .env file to the project root with fields (remember to add the .env file to .gitignore):
+```
+DBHOSTNAME="your_database_host"
+DATABASE="your_database_name"
+DBUSER="your_database_user
+DBPASSWORD="your_database_password"
+DBPORT="used_port_use_default_5432"
+```
 6. Setup in file /config/settings.js your base url + "/code" to where the codes will be redirected, for and example http://localhost:7777/code/ or 'https://myherokuapp.herokuapp.com/code/'
-6. Run from project root with command: ```deno run --allow-net --allow-read --unstable run-locally.js```
+6. Run locally from project root with command: ```deno run --allow-all --unstable run-locally.js local```
 7. Open [localhost:7777](http://localhost:7777)
 
-## Deploy to Heroku
+## Deploy to Heroku (via GitHub)
 1. App ports have already been configured for the use of Heroku in the app.js file
 2. Create a new app in heroku and in the setting tab add the following buildpack https://github.com/chibat/heroku-buildpack-deno.git
-3. A Procfile (case-sensitive, no suffix) in the project root directory will tell Heroku that it can launch the application using the command line command ```web: deno run --allow-all --unstable app.js ${PORT}``` Heroku will replace ${PORT} with the port that it wishes that the application will run on.
+3. A Procfile (case-sensitive, no suffix) in the project root directory will tell Heroku how it can launch the application. 
+Set up Config Vars in the project settings for DBHOSTNAME, DATABASE, DBUSER, DBPASSWORD and DBPORT same way you set up the .env for running locally.
 4. Deno version can be set with an additional file called runtime.txt. App has been created and tested with runtime v1.22.0
-5. To push the project to Heroku make sure you have [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed on your machine.
-6. Push the application to Heroku repository with terminal commands from the project root directory:
-    * ```heroku login```
-    * ```git init```
-    * ```heroku git:remote -a "your-heroku-app-name"```
-    * ```git add .```
-    * ```git commit -m "initial commit"```
-    * ```git push heroku master```
-7. After Heroku set everything up, your app should be working in the address https://your-heroku-app-name.herokuapp.com
+5. To push the project to Heroku you can use the GitHub actions pipeline or push straight to Heroku by using the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed on your machine.
+
+* Using Heroku
+    1. Push the application to Heroku repository with terminal commands from the project root directory:
+        * ```heroku login```
+        * ```git init```
+        * ```heroku git:remote -a "your-heroku-app-name"```
+        * ```git add .```
+        * ```git commit -m "initial commit"```
+        * ```git push heroku master```
+* Using GitHub actions
+
+    1. Set the following to "Deploy to Heroku" in the .github/workflows/deployment_pipeline.yml file:
+        * [Heroku api key](https://help.heroku.com/PBGP6IDE/how-should-i-generate-an-api-key-that-allows-me-to-use-the-heroku-platform-api): load from repository secrets
+        * Heroku app name
+        * Heroku email
+    2. Push the application to GitHub repository.
+7. Now your app should be working in the address https://your-heroku-app-name.herokuapp.com
 
 ## Run tests
-Run tests for the app from project root with command: ```deno test --allow-all --unstable``
+Run tests for the app from project root with command: ```deno test --allow-all --unstable -- local```.
+
+To run tests in the GitHub actions, you must set the DBHOSTNAME, DATABASE, DBUSER, DBPASSWORD and DBPORT in the repositorys [secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
 ## Built With
 
