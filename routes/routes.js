@@ -12,6 +12,11 @@ const router = new Router();
 router.get("/", mainController.showMain);
 router.get("/faq", mainController.showFaq);
 
+// Health check
+router.get("/health", (context) => {
+  context.response.body = "ok";
+});
+
 // QR codes
 router.get("/mycodes", codeController.listCodes);
 router.post("/add", codeController.addCode);
