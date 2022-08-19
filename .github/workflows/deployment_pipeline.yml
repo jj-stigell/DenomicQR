@@ -3,7 +3,7 @@ name: Heroku deployment pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   simple_deployment_pipeline:
