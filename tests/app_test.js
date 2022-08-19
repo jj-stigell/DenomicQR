@@ -9,6 +9,7 @@ Deno.test("GET request to / should return 200 'OK'", async () => {
     .expect(200);
 }, timeout);
 
+/*
 Deno.test("GET request to /faq should return 200 'OK'", async () => {
   const testClient = await superoak(app);
   await testClient.get("/faq")
@@ -60,3 +61,4 @@ Deno.test({
   sanitizeResources: false,
   sanitizeOps: false,
 }, timeout);
+*/
