@@ -8,3 +8,4 @@ export * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 export * as validasaur from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 export { qrcode } from "https://deno.land/x/qrcode/mod.ts";
 export * as ShortUniqueId from 'https://cdn.jsdelivr.net/npm/short-unique-id@latest/short_uuid/mod.ts';
+export { config as dotEnvConfig } from "https://deno.land/x/dotenv@v3.2.0/mod.ts";

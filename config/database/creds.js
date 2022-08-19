@@ -1,14 +1,17 @@
+import { dotEnvConfig } from "../../deps.js";
+dotEnvConfig({ export: true });
+
 /**
  * Database credentials.
- * Make sure this file is added to .gitignore
+ * creds read from .env file in the project root.
  * Using default PostgreSQL port 5432
  */
  export default
  {
-   hostname: "hostname",
-   database: "database",
-   user: "user",
-   password: "password",
-   port: 5432,
+   hostname: Deno.env.get("DBHOSTNAME"),
+   database: Deno.env.get("DATABASE"),
+   user: Deno.env.get("DBUSER"),
+   password: Deno.env.get("DBPASSWORD"),
+   port: Deno.env.get("DBPORT"),
  }
  

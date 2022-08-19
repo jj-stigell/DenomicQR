@@ -46,66 +46,6 @@ User password is commented in plain text to easily sign in to the account.
     * ```git push heroku master```
 7. After Heroku set everything up, your app should be working in the address https://your-heroku-app-name.herokuapp.com
 
-## API
-
-Two APIs are available. QR code link redirecting history and edit history.
-
-Redirecting history is fetched by making a request to "/rehist/'qrID'". For an example "/rehist/94jkT95u" returns the redirects of QR code id 94jkT95u in ascending order by 'viewedat' and meta data containing the QR id and how many entries found in total.
-
-```json
-
-{
-    redirectHistory: [{
-        id: 2845,
-        viewedat: "2022-06-21T20:54:38.119Z"
-    },
-    {
-        id: 3843,
-        viewedat: "2022-06-22T01:46:58.730Z"
-    }],
-    meta: {
-        qrid: "94jkT95u",
-        foundEntries: 2
-    }
-}
-
-```
-
-Edit history is fetched by making a request to "/edhist/'qrID'". For an example "/rehist/94jkT95u" returns the edits made to QR code id 94jkT95u in ascending order by 'fromdate' and meta data containing the QR code id and how many entries found in total.
-
-```json
-
-{
-    editHistory: [{
-        id: 1043,
-        linksto: "https://www.nhk.or.jp/",
-        comment: "This QR code redirects to NHK Japan",
-        fromdate: "2022-06-22T05:47:47.829Z",
-        todate: "2022-07-22T05:49:58.510Z"
-    },
-    {
-        id: 1273,
-        linksto: "https://www.foxnews.com/",
-        comment: "Links was update, now it's redirecting to Fox News",
-        fromdate: "2022-07-22T05:49:58.510Z",
-        todate: "2022-08-22T18:04:22.902Z"
-    },
-    {
-        id: 1883,
-        linksto: "https://jsonapi.org/",
-        comment: "Updated the link to redirect to JSON website",
-        fromdate: "2022-08-22T18:04:22.902Z",
-        todate: "2022-09-22T18:06:05.860Z"
-    }],
-    meta: {
-        qrid: "94jkT95u",
-        foundEntries: 3
-    }
-}
-
-```
-At this moment, API is available only for the user who owns the QR code and access it from the webapp.
-
 ## Run tests
 Run tests for the app from project root with command: ```deno test --allow-net --unstable --allow-read```
 
