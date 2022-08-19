@@ -13,7 +13,7 @@ const URL = "https://denomic.herokuapp.com/code/";
  * Determines the maximum number of concurrent connections 
  * to the database server.
  */
-const concurrentConnections = 4;
+const concurrentConnections = 2;
 
 /**
  * Set the length for the unique UUID that is generated
