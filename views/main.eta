@@ -43,7 +43,7 @@
         </form>
         <br>
         <p>
-            You don't have an account yet? <a href="/auth/register">Sign up here.</a>
+            You don't have an account yet? <a href="/auth/register">Sign up from here.</a>
         </p>
         </div>
     <% } %>
