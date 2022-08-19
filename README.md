@@ -47,7 +47,7 @@ User password is commented in plain text to easily sign in to the account.
 7. After Heroku set everything up, your app should be working in the address https://your-heroku-app-name.herokuapp.com
 
 ## Run tests
-Run tests for the app from project root with command: ```deno test --allow-net --unstable --allow-read```
+Run tests for the app from project root with command: ```deno test --allow-all --unstable``
 
 ## Built With
 
@@ -81,24 +81,3 @@ Run tests for the app from project root with command: ```deno test --allow-net -
 * Database indexing
 * Error [logging](https://deno.land/std@0.145.0/log/README.md)
 * Error handling
-
-## Version History
-* 0.3.0
-    * Redirect and edit history view for the user, with ajax update functionality
-    * Delete confirmation part of the UI
-    * Client-side form validation for registration, code adding and editing with jQuery
-    * Chart showing redirect history (uses mock data at the moment)
-    * Faq page
-    * Create QR code and my QR codes pages separated
-* 0.2.0
-    * Only the owner of the QR code can view edit page, edit and delete the code
-    * APIs for getting the redirecting and edit history
-    * Not found pages redirecting for dead links
-    * Increment view for link everytime opened
-    * Redirect and edit history tracking
-    * QR code deleting deletes the history and views
-* 0.1.2
-    * Reformatting forms
-    * Fixing typos in main pages
-* 0.1.1
-    * Initial Release

@@ -1,0 +1,17 @@
+name: Heroku deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: "1.22.0"
+      - name: test
+        run: deno test --allow-all --unstable -- test ${{secrets.DBHOSTNAME}} ${{secrets.DATABASE}} ${{secrets.DBUSER}} ${{secrets.DBPASSWORD}} ${{secrets.DBPORT}}
