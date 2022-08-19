@@ -15,11 +15,21 @@ jobs:
           deno-version: "1.22.0"
       - name: test
         run: deno test --allow-all --unstable -- test ${{secrets.DBHOSTNAME}} ${{secrets.DATABASE}} ${{secrets.DBUSER}} ${{secrets.DBPASSWORD}} ${{secrets.DBPORT}}
+      - name: Deploy to Heroku
+      if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip') }}
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "denomic"
+        heroku_email: ${{secrets.EMAIL}}
+        healthcheck: https://denomic.herokuapp.com/health
+        checkstring: "ok"
+        rollbackonhealthcheckfailed: true
       - uses: actions/checkout@v3
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip') }}
         uses: anothrNick/github-tag-action@1.36.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           DEFAULT_BUMP: patch
           RELEASE_BRANCHES: main

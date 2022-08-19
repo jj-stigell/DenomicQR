@@ -1,1 +1,1 @@
-web: deno run --allow-all --unstable heroku-deploy.js ${PORT}
+web: deno run --allow-all --unstable heroku-deploy.js production $DBHOSTNAME $DATABASE $DBUSER $DBPASSWORD $DBPORT ${PORT}
