@@ -1,7 +1,9 @@
 # DenomicQR, a dynamic QR code web app
 Simple web app to create and maintain dynamic QR codes.
 
-[Live demo](https://denomic.herokuapp.com/)
+**Demo does not work at the moment, looking for a new host to deploy the app**
+
+[Live demo]()
 
 Demo account:
 
