@@ -13,6 +13,12 @@
             <br><br>
             You can check this project's GitHub page <a href="https://github.com/jj-stigell/DenomicQR" target="_blank">here</a>.
             <br><br>
+            <p style="color:red;">
+                Demo user: demo@demo.com
+                <br>
+                Password: password
+            </p>
+            <br><br>
             After logging in or sign-up you can start creating and managing <a href="/mycodes">your QR codes</a>.
             <br><br>
             <% if (!it.user) { %>
